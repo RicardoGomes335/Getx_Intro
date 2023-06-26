@@ -38,21 +38,21 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             //Valor
-            GetBuilder<ValueController>(
-              init: valueController,
-              builder: (ctrl) {
-                return Text('Valor definido: ${ctrl.definedValue}');
-              },
-            ),
+            Obx(() {
+              return Text('Valor definido: ${valueController.definedValue}');
+            }),
             //Campo
-            TextField(
-              controller: textController,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 32),
+              child: TextField(
+                controller: textController,
+              ),
             ),
             //Botão
-            GetBuilder<ValueController>(
-              init: valueController,
-              builder: (ctrl) {
-                return ctrl.isLoading ? const CircularProgressIndicator() : ElevatedButton(
+            Obx(() {
+              return valueController.isLoading.value
+                ? const CircularProgressIndicator()
+                : ElevatedButton(
                   onPressed: () {
                     String value = textController.text;
 
@@ -60,8 +60,7 @@ class HomePage extends StatelessWidget {
                   },
                   child: const Text('Confirmar'),
                 );
-              },
-            ),
+            }),
           ],
         ),
       ),
